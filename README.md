@@ -11,6 +11,7 @@ Actions the character is currently capable of:
 - recognizing objects after a supervised training session
 
 Short highlight of walking and dragging objects:
+
 ![Demo](https://github.com/BogdanPolitic/Demos/blob/main/Learning_Individual_demo_0.gif?raw=true)
 
 <h3> Implementation details </h3>
