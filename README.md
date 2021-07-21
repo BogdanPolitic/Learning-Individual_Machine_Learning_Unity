@@ -10,7 +10,7 @@ Actions the character is currently capable of:
 - grabbing objects
 - recognizing objects after a supervised training session
 
-Short highlight of walking and dragging objects:
+Short highlight of walking and grabbing objects:
 
 ![Demo](https://github.com/BogdanPolitic/Demos/blob/main/Learning_Individual_demo_0.gif?raw=true)
 
