@@ -24,6 +24,7 @@ The **character's body** is made using mesh extrudes with a subdivision surface 
 - idle
 - walking
 - grabbing objects
+
 I made those using **Blender** timeline. 
 
 Because in the process of exporting to Unity, the object loses its inverse kinematics connections, the grabbing animation is done by linearly interpolating some IK grabbing animations (from Blender) using a Blend Tree.
