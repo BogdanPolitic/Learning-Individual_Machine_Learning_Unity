@@ -16,7 +16,7 @@ Short highlight of walking and grabbing objects:
 
 <h3> Modelling and implementation details </h3>
 
-The apartment and character are made in Blender, as stated above. 
+The apartment and character are made in **Blender**, as stated above. 
 
 The apartment is nothing more than a symetrical placement of walls and floors, with self-applied textures. 
 
@@ -25,7 +25,7 @@ The **character's body** is made using mesh extrudes with a **subdivision surfac
 - walking
 - grabbing objects
 
-I made those using **Blender** timeline. 
+I made those using Blender timeline. 
 
 Because in the process of exporting to Unity, the object loses its inverse kinematics connections, the grabbing animation is done by linearly interpolating some IK grabbing animations (from Blender) using a Blend Tree.
 
