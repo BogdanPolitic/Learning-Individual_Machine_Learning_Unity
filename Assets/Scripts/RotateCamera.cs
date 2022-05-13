@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class RotateCamera : MonoBehaviour
 {
+    public static RotateCamera instance;
+    public bool isFirstPerson;
+
     float yaw, pitch;
     public Transform player;
     public float distToTarget;
     public Vector3 cameraOffset;
     public float minYaw, maxYaw;
+
+    private void Awake()
+    {
+        instance = this;
+        isFirstPerson = false;
+    }
 
     void Start()
     {
@@ -20,6 +29,9 @@ public class RotateCamera : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (isFirstPerson)
+            return;
+
         yaw -= Input.GetAxis("Mouse Y");
         pitch += Input.GetAxis("Mouse X");
 

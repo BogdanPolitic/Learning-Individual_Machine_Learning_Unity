@@ -5,56 +5,37 @@ using System.Linq;
 
 public class ObjectVisibilityChecker : MonoBehaviour
 {
-    GameObject[] allGOs;
     public int status;
-    List<GameObject> allGOsL;
     public GameObject playerCamera;
     public CaptureAndSave captureAndSaveScript;
     float proximity = 3.0f;
 
-    const int TRAINABLE_OBJECT_LAYER = 6;
+    [SerializeField] GameObject trainableObjects;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        allGOs = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));    // toate GameObject-urile
-        allGOsL = new List<GameObject>();                                           // toate GameObject-urile care sunt la radacina ierarhiei
-
-        foreach (GameObject o in allGOs)
-        {
-            if (o.transform.parent == null)
-                allGOsL.Add(o);
-        }
-    }
-
-    // Update is called once per frame
     void Update()
     {
         float distance;
-        int ct = 0;
+        int objectSightCount = 0;
         GameObject onlyVisible = null;
-        foreach (GameObject o in allGOsL)
+        foreach (Transform o in trainableObjects.transform)
         {
-            if (o.layer == TRAINABLE_OBJECT_LAYER)
-            {
-                MeshRenderer mr = o.GetComponent<MeshRenderer>();
-                distance = (playerCamera.transform.position - o.transform.position).magnitude;
+            MeshRenderer mr = o.GetComponent<MeshRenderer>();
+            distance = (playerCamera.transform.position - o.position).magnitude;
 
-                if (distance < proximity && mr != null && mr.isVisible)
-                {
-                    onlyVisible = o;
-                    ct++;
-                } else
-                {
-                    foreach (Transform child in o.transform) {
-                        mr = child.GetComponent<MeshRenderer>();
-                        distance = (playerCamera.transform.position - child.position).magnitude;
-                        if (distance < proximity && mr != null && mr.isVisible)
-                        {
-                            onlyVisible = o;
-                            ct++;
-                            break;
-                        }
+            if (distance < proximity && mr != null && mr.isVisible)
+            {
+                onlyVisible = o.gameObject;
+                objectSightCount++;
+            } else
+            {
+                foreach (Transform child in o.transform) {
+                    mr = child.GetComponent<MeshRenderer>();
+                    distance = (playerCamera.transform.position - child.position).magnitude;
+                    if (distance < proximity && mr != null && mr.isVisible)
+                    {
+                        onlyVisible = o.gameObject;
+                        objectSightCount++;
+                        break;
                     }
                 }
             }
@@ -62,22 +43,22 @@ public class ObjectVisibilityChecker : MonoBehaviour
 
         //Debug.Log("it = " + ct);
 
-        if (ct == 0)
+        if (objectSightCount == 0)
         {
-            //Debug.Log("Kinda empty here ...");
+            //Debug.Log("There's no trainable object visible right now.");
             status = 0;
             captureAndSaveScript.captureTarget = null;
             return;
         }
 
-        if (ct > 1)
+        if (objectSightCount > 1)
         {
             status = 2;
             captureAndSaveScript.captureTarget = null;
             return;
         }
 
-        //Debug.Log("You can only see " + onlyVisible.name);
+        //Debug.Log("The only trainable object visible is " + onlyVisible.name);
         status = 1;
 
         captureAndSaveScript.captureTarget = onlyVisible;

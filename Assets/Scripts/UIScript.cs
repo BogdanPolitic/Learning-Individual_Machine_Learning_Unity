@@ -13,6 +13,8 @@ public class UIScript : MonoBehaviour
         PATHFINDING
     };
 
+    public static UIScript instance;
+
     public string objName;
     public Rect windowRect;
 
@@ -43,6 +45,11 @@ public class UIScript : MonoBehaviour
 
     public CaptureAndSave captureAndSave;
     public CustomPathfinding customPathfinding;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -99,7 +106,10 @@ public class UIScript : MonoBehaviour
             else
                 currentMode = GameModes.Modes.Pathfinding;
         }
-        
+
+        if (currentMode == GameModes.Modes.SceneToMenu)
+            SwitchHouseColliders.instance.SetTriggers(false);
+
 
         if ((currentMode == GameModes.Modes.Training ||
             currentMode == GameModes.Modes.Test ||
@@ -178,6 +188,8 @@ public class UIScript : MonoBehaviour
             currentMode = GameModes.Modes.MenuToScene;
             hideMenu = true;
             lastChosen = Option.PATHFINDING;
+
+            SwitchHouseColliders.instance.SetTriggers(true);
         }
     }
 }

@@ -4,73 +4,102 @@ using UnityEngine;
 
 public class CustomPathfinding : MonoBehaviour
 {
+	public static CustomPathfinding instance;
+
 	public Transform seeker, target;
 	public CustomGrid grid;
 
 	public float speed = 100.0f;
-	public float nextWaypointDistance = 3f;
+	public float nextWaypointDistance;
 	int currentWaypoint = 0;
-	//bool reachedEndOfPath = false;
-	public Rigidbody rb;
+	bool reachedEndOfPath = false;
 
 	public CharController playerController;
+	public float minDistanceToTarget;
+	public bool orientatingToTargetInPlace;	// When the character gets to the minimum allowed distance point to an object, it may firstly have an orientation that is NOT equal to the direction to the focused object.
+	// This variable is TRUE while the character is adjusting its rotation until in perfectly faces the object he should be focused on. This variable cannot be TRUE if the character didn't arrive close to the focused object yet.
+
+	bool drawGiz;
+	HashSet<CustomNode> closedSet;
 
 	void Awake()
 	{
-		//playerController = GetComponent<MyController>();
+		instance = this;
+
+		//playerController = GetComponent<MyController
+		closedSet = new HashSet<CustomNode>();
 	}
 
     private void Start()
     {
 		InvokeRepeating("UpdatePath", 0f, 0.5f);
+		drawGiz = false;
+		orientatingToTargetInPlace = false;
     }
 
 	void UpdatePath()
     {
 		if (target == null) return;
+		if (Vector3.Distance(seeker.position, target.position) < minDistanceToTarget) return;
+
+		SwitchHouseColliders.instance.SetCollidersActiveRecursively(target, false);
+		CustomGrid.instance.CreateGrid();
+
+		orientatingToTargetInPlace = false;
+		reachedEndOfPath = false;
 		FindPath(seeker.position, target.position);
 	}
 
     private void FixedUpdate()
     {
-		if (grid.path == null) return;
+		if (grid.path == null || reachedEndOfPath || orientatingToTargetInPlace) return;
 
-		/*if (currentWaypoint >= grid.path.Count)
+		if (currentWaypoint >= grid.path.Count)
         {
 			reachedEndOfPath = true;
 			return;
-        }
-		reachedEndOfPath = false;*/
+		}
 
-		Vector3 direction = (grid.path[currentWaypoint].worldPosition - transform.position).normalized;
+		if ((target.position - seeker.position).magnitude < minDistanceToTarget)
+        {
+            reachedEndOfPath = true;
+			//playerController.SetMoveDir(Vector3.zero);
+			playerController.SetMoveDir(target.position - seeker.position);
+			orientatingToTargetInPlace = true;
+			return;
+        }
+
+        Vector3 direction = (grid.path[currentWaypoint].worldPosition - transform.position).normalized;
 		playerController.SetMoveDir(direction);
 
-
-		float distance = Vector3.Distance(rb.position, grid.path[currentWaypoint].worldPosition);
-
+		float distance = Vector3.Distance(seeker.position, grid.path[currentWaypoint].worldPosition);
 		if (distance < nextWaypointDistance)
 			currentWaypoint++;
     }
 
     void FindPath(Vector3 startPos, Vector3 targetPos)
 	{
+		//Vector3 targetToStopWalking = GetTargetCloseContact(startPos, targetPos, minDistanceToTarget);
+
+		Debug.Log("target position = " + targetPos);
+
 		CustomNode startCustomNode = grid.NodeFromWorldPoint(startPos);
+		//CustomNode targetCustomNode = grid.NodeFromWorldPoint(targetToStopWalking);
 		CustomNode targetCustomNode = grid.NodeFromWorldPoint(targetPos);
 
 		List<CustomNode> openSet = new List<CustomNode>();
-		HashSet<CustomNode> closedSet = new HashSet<CustomNode>();
+		//HashSet<CustomNode> closedSet = new HashSet<CustomNode>();
+		closedSet = new HashSet<CustomNode>();
 		openSet.Add(startCustomNode);
 
 		while (openSet.Count > 0)
 		{
+			// Aflarea nodului de suma minima din openSet (setul de explorare)
 			CustomNode node = openSet[0];
 			for (int i = 1; i < openSet.Count; i++)
 			{
-				if (openSet[i].fCost < node.fCost || openSet[i].fCost == node.fCost)
-				{
-					if (openSet[i].hCost < node.hCost)
-						node = openSet[i];
-				}
+				if (openSet[i].fCost <= node.fCost && openSet[i].hCost < node.hCost)
+					node = openSet[i];
 			}
 
 			openSet.Remove(node);
@@ -80,6 +109,8 @@ public class CustomPathfinding : MonoBehaviour
 			{
 				RetracePath(startCustomNode, targetCustomNode);
 				currentWaypoint = 0;
+				SwitchHouseColliders.instance.SetCollidersActiveRecursively(target, true);
+				drawGiz = true;
 				return;
 			}
 
@@ -102,6 +133,11 @@ public class CustomPathfinding : MonoBehaviour
 				}
 			}
 		}
+
+		Debug.Log("ajung aici");
+
+		SwitchHouseColliders.instance.SetCollidersActiveRecursively(target, true);
+		drawGiz = true;
 	}
 
 	void RetracePath(CustomNode startCustomNode, CustomNode endCustomNode)
@@ -109,9 +145,18 @@ public class CustomPathfinding : MonoBehaviour
 		List<CustomNode> path = new List<CustomNode>();
 		CustomNode currentCustomNode = endCustomNode;
 
+		int totalC = 0;
+
+		bool reachedTargetToStopWalking = false;
 		while (currentCustomNode != startCustomNode)
 		{
-			path.Add(currentCustomNode);
+			totalC++;
+			if (!reachedTargetToStopWalking && Vector3.Distance(currentCustomNode.worldPosition, target.position) < minDistanceToTarget)
+				reachedTargetToStopWalking = true;
+
+			if (reachedTargetToStopWalking)
+				path.Add(currentCustomNode);
+
 			currentCustomNode = currentCustomNode.parent;
 		}
 		path.Reverse();
@@ -129,4 +174,32 @@ public class CustomPathfinding : MonoBehaviour
 			return 14 * dstY + 10 * (dstX - dstY);
 		return 14 * dstX + 10 * (dstY - dstX);
 	}
+
+	Vector3 GetTargetCloseContact(Vector3 seekerPos, Vector3 targetPos, float minDistanceToTarget)
+    {
+		float distanceToTarget = (targetPos - seekerPos).magnitude;
+
+		// Too close to target (already in target range):
+		if (distanceToTarget < minDistanceToTarget)
+			return seekerPos;
+
+		return new Vector3(
+			targetPos.x + (minDistanceToTarget / distanceToTarget) * (seekerPos.x - targetPos.x),
+			targetPos.y + (minDistanceToTarget / distanceToTarget) * (seekerPos.y - targetPos.y),
+			targetPos.z + (minDistanceToTarget / distanceToTarget) * (seekerPos.z - targetPos.z)
+		);
+    }
+
+    /*private void OnDrawGizmos()
+    {
+		if (closedSet == null || drawGiz == false) return;
+
+		Gizmos.color = Color.red;
+		foreach (CustomNode node in closedSet)
+        {
+			//Gizmos.DrawCube(node.worldPosition, 0.25f * Vector3.one);
+        }
+
+		//drawGiz = false;
+    }*/
 }

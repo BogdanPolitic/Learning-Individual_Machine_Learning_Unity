@@ -30,6 +30,7 @@ public class ToggleView : MonoBehaviour
         {
             isFirstPerson = !isFirstPerson;
         }
+        RotateCamera.instance.isFirstPerson = isFirstPerson;
 
         if (isFirstPerson)
         {

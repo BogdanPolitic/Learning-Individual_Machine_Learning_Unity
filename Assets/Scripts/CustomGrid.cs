@@ -5,6 +5,8 @@ using System.Linq;
 
 public class CustomGrid : MonoBehaviour
 {
+	public static CustomGrid instance;
+
 	public LayerMask unwalkableMask;
 	public Vector2 gridWorldSize;
 	public float nodeRadius;
@@ -32,13 +34,15 @@ public class CustomGrid : MonoBehaviour
 
     void Awake()
 	{
+		instance = this;
+
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
 		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
 		CreateGrid();
 	}
 
-	void CreateGrid()
+	public void CreateGrid()
 	{
 		grid = new CustomNode[gridSizeX, gridSizeY];
 		Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
@@ -48,7 +52,9 @@ public class CustomGrid : MonoBehaviour
 			for (int y = 0; y < gridSizeY; y++)
 			{
 				Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
-				bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+				//bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+				bool walkable = !(Physics.CheckCapsule(worldPoint + new Vector3(0.0f, -0.5f, 0.0f), worldPoint + new Vector3(0.0f, 0.5f, 0.0f), nodeRadius, unwalkableMask));
+				
 				//if (colliderCells.Contains(new Vector2(x, y))) walkable = false;
 				if (!walkable) colliderCells.Add(new Vector2(x, y));
 				grid[x, y] = new CustomNode(walkable, worldPoint, x, y);
@@ -96,30 +102,30 @@ public class CustomGrid : MonoBehaviour
 	public List<CustomNode> path;
 	void OnDrawGizmos()
 	{
-		Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
-		if (grid != null)
-		{
-			for (int x = 0; x < grid.GetLength(0); x++)
-			{
-				for (int y = 0; y < grid.GetLength(1); y++)
-				{
-					CustomNode n = grid[x, y];
-					Gizmos.color = (n.walkable) ? Color.white : Color.red;
-					if (path != null)
-						if (path.Contains(n))
-						{
-							Gizmos.color = Color.green;
-							Gizmos.DrawCube(n.worldPosition + new Vector3(0, 1, 0), Vector3.one * (nodeDiameter - .1f));
-						}
-                    if (colliderCells.Contains(new Vector2(x, y)))
+        if (grid != null)
+        {
+            for (int x = 0; x < grid.GetLength(0); x++)
+            {
+                for (int y = 0; y < grid.GetLength(1); y++)
+                {
+                    CustomNode n = grid[x, y];
+                    Gizmos.color = (n.walkable) ? Color.white : Color.red;
+                    if (path != null)
+                        if (path.Contains(n))
+                        {
+                            Gizmos.color = Color.green;
+                            Gizmos.DrawCube(n.worldPosition + new Vector3(0, 1, 0), Vector3.one * (nodeDiameter - .1f));
+                        }
+                    /*if (colliderCells.Contains(new Vector2(x, y)))
                     {
                         Gizmos.color = Color.blue;
-						Gizmos.DrawCube(n.worldPosition + new Vector3(0, 1, 0), Vector3.one * (nodeDiameter - .1f));
-					}
+                        Gizmos.DrawCube(n.worldPosition + new Vector3(0, 1, 0), Vector3.one * (nodeDiameter - .1f));
+                    }*/
                     //Gizmos.DrawCube(n.worldPosition + new Vector3(0, 1, 0), Vector3.one * (nodeDiameter - .1f));
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 }

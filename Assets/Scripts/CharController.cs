@@ -5,8 +5,9 @@ using UnityEngine;
 public class CharController : MonoBehaviour
 {
     Camera cam;
-    Vector3 moveDir;
-    float rotSpeed = 1f;
+    [SerializeField] GameObject _camera;
+    public Vector3 moveDir;
+    float rotSpeed = 270.0f;
     public Animator animator;
     Rigidbody rb;
     public float groundCheck = 0.2f;
@@ -29,7 +30,7 @@ public class CharController : MonoBehaviour
         moveDir = Vector3.zero;
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!animator.GetBool("GrabCanceled"))
             return;
@@ -44,35 +45,43 @@ public class CharController : MonoBehaviour
         moveDir.y = 0;
         moveDir = moveDir.normalized;
 
-        if (moveFwd != 0 												// daca apas doar pe arrowLeft sau arrowRight, fara sa apas pe arrowForward, caracterul NU se va urni din loc, dar se va roti doar (deci NU vom seta velocity daca NU apas pe arrowForward)
-        	|| _UIScript.currentMode == GameModes.Modes.Pathfinding)	// daca nu puneam conditia asta, nu trecea if-ul doar cu conditia de mai sus, deoarece la pathfinding nu trebuie sa apesi pe niciun arrow (nu neaparat), ci personajul trebuie sa se miste (sa capete velocity) singur
+        ComputeAnimatorParams(moveDir);
+
+        if (_UIScript.currentMode != GameModes.Modes.Pathfinding && (moveFwd == 0.0f && moveSide == 0.0f))
+            return;
+
+        if (_UIScript.currentMode == GameModes.Modes.Pathfinding	// la pathfinding nu trebuie sa apesi pe niciun arrow (nu neaparat), ci personajul trebuie sa se miste (sa capete velocity) singur
+            || !CustomPathfinding.instance.orientatingToTargetInPlace)
             GetComponent<Rigidbody>().velocity = moveDir * 2f;
 
-        float theta = Mathf.Acos(Vector3.Dot(transform.forward, moveDir));
+        Vector3 camTrFwdProjected = Vector3.Normalize(Vector3.ProjectOnPlane(cam.transform.forward, Vector3.up));
+        float theta = Mathf.Acos(Vector3.Dot(transform.forward, camTrFwdProjected));
         theta *= Mathf.Rad2Deg;
 
-        if ((moveDir - transform.forward).magnitude > 0.01f && // if we move anything but straight forward
-            (moveDir + transform.forward).magnitude > 0.01f) { // or if we move anything but straight backward
-
-            transform.rotation = Quaternion.AngleAxis(theta * Time.deltaTime * rotSpeed, Vector3.Cross(transform.forward, moveDir)) * transform.rotation;
+        if ((camTrFwdProjected - transform.forward).magnitude > 0.01f && // if we move anything but straight forward
+            (camTrFwdProjected + transform.forward).magnitude > 0.01f) { // or if we move anything but straight backward
+            
+            if (_UIScript.currentMode == GameModes.Modes.Pathfinding)
+                transform.rotation = Quaternion.AngleAxis(Time.deltaTime * rotSpeed, Vector3.Cross(transform.forward, moveDir)) * transform.rotation;
+            else
+                transform.rotation = Quaternion.AngleAxis(theta * Time.deltaTime * 18.0f, Vector3.Cross(transform.forward, camTrFwdProjected)) * transform.rotation;
         }
 
-        if ((moveDir + transform.forward).magnitude < 0.01f)
+
+        if (_UIScript.currentMode == GameModes.Modes.Pathfinding && CustomPathfinding.instance.orientatingToTargetInPlace)
         {
-            transform.rotation = Quaternion.AngleAxis(2f, Vector3.up) * transform.rotation;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            if ((moveDir - transform.forward).magnitude < 0.01f)
+            {
+                CustomPathfinding.instance.orientatingToTargetInPlace = false;
+                moveDir = Vector3.zero;
+            }
         }
-
-        ComputeAnimatorParams(moveDir);
     }
 
     void ComputeAnimatorParams(Vector3 dir)
     {
         Vector3 moveDirCharacterSpace = transform.InverseTransformDirection(moveDir);
-
-        if (Input.GetKey(KeyCode.LeftShift))    // merge, nu alearga
-        {
-            moveDirCharacterSpace *= 0.5f;
-        }   // else, alearga
 
         animator.SetFloat("Forward", moveDirCharacterSpace.z, 0.2f, Time.deltaTime);
         animator.SetFloat("Right", moveDirCharacterSpace.x, 0.2f, Time.deltaTime);

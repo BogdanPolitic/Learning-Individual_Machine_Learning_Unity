@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
 using UnityEngine.Windows;
 using System.Drawing;
 
@@ -16,6 +17,9 @@ public class CaptureAndSave : MonoBehaviour
 
     GameModes gameStatus;
     public GameModes.Modes currentMode;
+
+    Camera _camera;
+    RenderTexture objectCaptureRenderTexture;
 
     Dictionary<string, int> captures;
     int numberOfCaptures;
@@ -56,6 +60,11 @@ public class CaptureAndSave : MonoBehaviour
 
     void Start()
     {
+        RenderPipelineManager.endFrameRendering += OnEndFrameRendering;
+
+        _camera = GetComponent<Camera>();
+        objectCaptureRenderTexture = new RenderTexture(imageDimensionX, imageDimensionY, 24);
+
         allGOs = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
         captures = new Dictionary<string, int>();
         _UIScript = GameObject.Find("UIScript").GetComponent<UIScript>();
@@ -71,21 +80,21 @@ public class CaptureAndSave : MonoBehaviour
         objIds["TV"] = 1;
         objIds["Sink"] = 2;
         objIds["Bath"] = 3;
-        objIds["Sub"] = 4;
+        objIds["Seat"] = 4;
 
         idObjs = new string[objIds.Count];
         idObjs[0] = "Sofa";
         idObjs[1] = "TV";
         idObjs[2] = "Sink";
         idObjs[3] = "Bath";
-        idObjs[4] = "Sub";
+        idObjs[4] = "Seat";
 
         objs = new Dictionary<string, GameObject>();
         objs["Sofa"] = GameObject.Find("Sofa");
         objs["TV"] = GameObject.Find("TV");
         objs["Sink"] = GameObject.Find("Sink");
         objs["Bath"] = GameObject.Find("Bath");
-        objs["Sub"] = GameObject.Find("Toilet_sub1");
+        objs["Seat"] = GameObject.Find("ToiletSeat");
 
         //trainingVariety = objIds.Count;
         trainingVariety = 2;
@@ -105,11 +114,6 @@ public class CaptureAndSave : MonoBehaviour
     void Update()
     {
         currentMode = _UIScript.currentMode;
-        //Debug.Log("current mode = " + currentMode);
-
-        /*if (AutomaticCapture()) {
-        	Debug.Log("acum! " + Time.frameCount);
-        }*/
 
         ReadImg();
 
@@ -120,7 +124,7 @@ public class CaptureAndSave : MonoBehaviour
             if (captureTarget == null)
             {
                 captureAllowed = false;
-                Debug.Log("Focus at an object before taking capture!");
+                Debug.Log("Focus at an object before taking capture! Make sure the editor camera does not focus on trainable objects, or better switch the editor camera off the screen while performing training!");
                 return;
             }
             
@@ -147,6 +151,7 @@ public class CaptureAndSave : MonoBehaviour
             }
 
             captureBackground.GetComponent<MeshRenderer>().enabled = true;
+            _camera.targetTexture = objectCaptureRenderTexture;
         }
 
         if (currentMode == GameModes.Modes.MenuToScene)
@@ -156,7 +161,7 @@ public class CaptureAndSave : MonoBehaviour
         	if (numberOfCaptures >= bucketSize)
             	neuralNetwork.TrainNetworkAndWipeInputData(20, bucketSize, 1.0f);
             else
-            	Debug.Log("Necesita mai multa antrenare!");
+            	Debug.Log("More training is needed!");
 
         //if (Input.GetKeyDown(KeyCode.H)) {
         //	neuralNetwork.ReverseTrainingData();
@@ -257,16 +262,25 @@ public class CaptureAndSave : MonoBehaviour
     	return outputImg;
     }
 
-    private void OnPostRender()
+
+
+
+
+
+
+    void OnEndFrameRendering(ScriptableRenderContext context, Camera[] cameras)
     {
         if (captureAllowed)
-        {        	
+        {
             //Create a new texture with the width and height of the screen
-            Texture2D texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+            RenderTexture.active = _camera.targetTexture;
+            Texture2D texture = new Texture2D(_camera.targetTexture.width, _camera.targetTexture.height, TextureFormat.RGB24, false);
 
             //Read the pixels in the Rect starting at 0,0 and ending at the screen's width and height
-            texture.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0, false);
+            texture.ReadPixels(new Rect(0, 0, _camera.targetTexture.width, _camera.targetTexture.height), 0, 0, false);
             texture.Apply();
+            RenderTexture.active = null;
+
 
             float[] resizedImageArray = EncodeAndResizeImage(texture, imageDimensionX, imageDimensionY);
             byte[] resized8BitImage = UnitImageTo8BitImage(resizedImageArray, imageDimensionX, imageDimensionY);
@@ -276,7 +290,8 @@ public class CaptureAndSave : MonoBehaviour
             string bmpsFolder = (currentMode == GameModes.Modes.Training)
             	?	"Training"
             	:	"Test";
-            WriteBytesToBitmap(resized8BitImage, @"C:\Users\bob\Documents\DeepLearningPython-master\Samples\ExportedBMPs\" + bmpsFolder + "\\" + numberOfCaptures + ".bmp");
+            //WriteBytesToBitmap(resized8BitImage, @"C:\Users\bob\Documents\DeepLearningPython-master\Samples\ExportedBMPs\" + bmpsFolder + "\\" + numberOfCaptures + ".bmp");
+            //WriteBytesToBitmap(resized8BitImage, @"Assets\Samples\ExportedBMPs\" + bmpsFolder + "\\" + numberOfCaptures + ".bmp");
 
             Texture2D resizedTexture = BitmapToTexture(resizedImageArray, imageDimensionX, imageDimensionY);
 
@@ -317,22 +332,36 @@ public class CaptureAndSave : MonoBehaviour
             if (!captures.ContainsKey(captureCategory))
             {
                 captures[captureCategory] = 0;
-                System.IO.Directory.CreateDirectory("C:\\Users\\bob\\Documents\\Unity Projects\\Learning_Individual_etapa_1\\Assets\\Object captures\\Training\\" 
+                /*System.IO.Directory.CreateDirectory("C:\\Users\\bob\\Documents\\Unity Projects\\Learning_Individual_etapa_1\\Assets\\Object captures\\Training\\" 
                 	+ captureCategory
                 	);
                 System.IO.Directory.CreateDirectory("C:\\Users\\bob\\Documents\\Unity Projects\\Learning_Individual_etapa_1\\Assets\\Object captures\\Test\\" 
                 	+ captureCategory
-                	);
+                	);*/
+
+                System.IO.Directory.CreateDirectory("Assets\\Object captures\\Training\\"
+                    + captureCategory
+                    );
+                System.IO.Directory.CreateDirectory("Assets\\Object captures\\Test\\"
+                    + captureCategory
+                    );
             }
             else
                 captures[captureCategory]++;
 
-            UnityEngine.Windows.File.WriteAllBytes("C:\\Users\\bob\\Documents\\Unity Projects\\Learning_Individual_etapa_1\\Assets\\Object captures\\" 
+            /*UnityEngine.Windows.File.WriteAllBytes("C:\\Users\\bob\\Documents\\Unity Projects\\Learning_Individual_etapa_1\\Assets\\Object captures\\" 
             	+ directory + "\\"
                 + captureCategory + "\\" 
                 + captures[captureCategory] 
                 + ".jpg", jpegData
-                );
+                );*/
+
+            /*UnityEngine.Windows.File.WriteAllBytes("Assets\\Object captures\\"
+                + directory + "\\"
+                + captureCategory + "\\"
+                + captures[captureCategory]
+                + ".jpg", jpegData
+                );*/
 
 
 
@@ -345,25 +374,15 @@ public class CaptureAndSave : MonoBehaviour
 
             foreach (GameObject o in allGOs)
             {
-                MeshRenderer mr = PostCaptureRenderAllowed(o);
+                MeshRenderer mr = o.GetComponent<MeshRenderer>();
                 if (mr != null)
                     mr.enabled = true;
             }
             captureBackground.GetComponent<MeshRenderer>().enabled = false;
+            _camera.targetTexture = null;
 
         	numberOfCaptures++;
         }
-    }
-
-    // Returns the object's renderer if the object SHOULD be rendered again after the capture frame, null otherwise.
-    MeshRenderer PostCaptureRenderAllowed(GameObject gO)
-    {
-        MeshRenderer mr = gO.GetComponent<MeshRenderer>();
-        if (mr == null)
-            return null;
-        if (gO.layer == LayerMask.NameToLayer("Obstacle"))
-            return null;
-        return mr;
     }
 
 
@@ -375,7 +394,8 @@ public class CaptureAndSave : MonoBehaviour
 
     void ReadImg()
     {
-        string filePath = @"C:\Users\bob\Documents\DeepLearningPython-master\Samples\TestSimple4\T0\1.bmp";
+        //string filePath = @"C:\Users\bob\Documents\DeepLearningPython-master\Samples\TestSimple4\T0\1.bmp";
+        string filePath = @"Assets\Object captures\Samples\TestSimple4\T0\1.bmp";
         exampleBitmapArray = System.IO.File.ReadAllBytes(filePath);
     }
 
