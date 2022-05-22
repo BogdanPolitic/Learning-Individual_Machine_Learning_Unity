@@ -6,7 +6,10 @@ public class CharController : MonoBehaviour
 {
     Camera cam;
     [SerializeField] GameObject _camera;
-    public Vector3 moveDir;
+    [SerializeField] CharacterSoundPlayer _characterSoundPlayer;
+
+
+    public Vector3 moveDir, prevMoveDir;
     float rotSpeed = 270.0f;
     public Animator animator;
     Rigidbody rb;
@@ -27,11 +30,14 @@ public class CharController : MonoBehaviour
     }
 
     void Start() {
-        moveDir = Vector3.zero;
+        moveDir = prevMoveDir = Vector3.zero;
     }
 
     void LateUpdate()
     {
+        if (moveDir == Vector3.zero && prevMoveDir != Vector3.zero)
+            _characterSoundPlayer.StopPlayingWalkingSound();
+
         if (!animator.GetBool("GrabCanceled"))
             return;
 
@@ -77,6 +83,13 @@ public class CharController : MonoBehaviour
                 moveDir = Vector3.zero;
             }
         }
+
+        if (moveDir != Vector3.zero && prevMoveDir == Vector3.zero)
+            _characterSoundPlayer.PlayWalkingSound();
+
+        Debug.Log("moveDir = " + moveDir + " and prev = " + prevMoveDir);
+
+        prevMoveDir = moveDir;
     }
 
     void ComputeAnimatorParams(Vector3 dir)

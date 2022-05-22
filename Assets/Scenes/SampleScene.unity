@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.09365143, g: 0.15514283, b: 0.22296774, a: 1}
+  m_IndirectSpecularColor: {r: 0.09380693, g: 0.15412912, b: 0.22308064, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -700,6 +700,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ba26bc465143440b223013416491e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &338154425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 338154427}
+  - component: {fileID: 338154426}
+  m_Layer: 0
+  m_Name: Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &338154426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338154425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2ee3cb487163d4f8b1f5259a680669, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MySoundManager: {fileID: 978758691}
+--- !u!4 &338154427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338154425}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 978758692}
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &381834999
 GameObject:
   m_ObjectHideFlags: 0
@@ -1801,7 +1846,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 789cc65897257d34b9cf360a7b7889b1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 789cc65897257d34b9cf360a7b7889b1,
         type: 3}
@@ -2487,6 +2532,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &978758690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 978758692}
+  - component: {fileID: 978758691}
+  m_Layer: 0
+  m_Name: MySoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &978758691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978758690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e558af6ed2fc44f8ba1c41a719f4f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MySounds:
+  - clip: {fileID: 8300000, guid: dc3768f8ccad62a48ba86bdf277f2ec6, type: 3}
+    name: 
+    volume: 0.316
+    pitch: 1.6
+    loop: 1
+    audioSource: {fileID: 0}
+    gameObject: {fileID: 0}
+  MainCharacter: {fileID: 2040717204}
+--- !u!4 &978758692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978758690}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 338154427}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1014535642 stripped
 MonoBehaviour:
@@ -4017,7 +4114,7 @@ MonoBehaviour:
   speed: 100
   nextWaypointDistance: 0.25
   playerController: {fileID: 2040717202}
-  minDistanceToTarget: 1.5
+  minDistanceToTarget: 0
   orientatingToTargetInPlace: 0
 --- !u!95 &2040717201
 Animator:
@@ -4050,8 +4147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d92f1bee605ba447a71a353c66288f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 963194225}
+  _camera: {fileID: 0}
+  _characterSoundPlayer: {fileID: 2040717204}
   moveDir: {x: 0, y: 0, z: 0}
+  prevMoveDir: {x: 0, y: 0, z: 0}
   animator: {fileID: 2040717201}
   groundCheck: 0.2
   jumpPower: 5
@@ -4071,6 +4170,18 @@ MonoBehaviour:
   objectToGrab: {fileID: 1934473607}
   LH_bone: {fileID: 1352227945}
   RH_bone: {fileID: 832075899}
+--- !u!114 &2040717204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040717196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de850936ec3ec7428074f8a41cdceb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2069332572
 GameObject:
   m_ObjectHideFlags: 0
