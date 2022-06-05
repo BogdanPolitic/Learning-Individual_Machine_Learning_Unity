@@ -2476,6 +2476,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -2570,7 +2571,15 @@ MonoBehaviour:
     loop: 1
     audioSource: {fileID: 0}
     gameObject: {fileID: 0}
+  - clip: {fileID: 8300000, guid: a827b30d837a81848a27d49d7aaeeb13, type: 3}
+    name: 
+    volume: 0.316
+    pitch: 1.6
+    loop: 1
+    audioSource: {fileID: 0}
+    gameObject: {fileID: 0}
   MainCharacter: {fileID: 2040717204}
+  Doors: {fileID: 205692872}
 --- !u!4 &978758692
 Transform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,559 @@
+diff --git a/Assets/Scenes/SampleScene.unity b/Assets/Scenes/SampleScene.unity
+index 06c69a6..ccdcd45 100644
+--- a/Assets/Scenes/SampleScene.unity
++++ b/Assets/Scenes/SampleScene.unity
+@@ -38,7 +38,7 @@ RenderSettings:
+   m_ReflectionIntensity: 1
+   m_CustomReflection: {fileID: 0}
+   m_Sun: {fileID: 705507994}
+-  m_IndirectSpecularColor: {r: 0.09380693, g: 0.15412912, b: 0.22308064, a: 1}
++  m_IndirectSpecularColor: {r: 0.09365143, g: 0.15514283, b: 0.22296774, a: 1}
+   m_UseRadianceAmbientProbe: 0
+ --- !u!157 &3
+ LightmapSettings:
+@@ -700,51 +700,6 @@ MonoBehaviour:
+   m_Script: {fileID: 11500000, guid: e5ba26bc465143440b223013416491e2, type: 3}
+   m_Name: 
+   m_EditorClassIdentifier: 
+---- !u!1 &338154425
+-GameObject:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  serializedVersion: 6
+-  m_Component:
+-  - component: {fileID: 338154427}
+-  - component: {fileID: 338154426}
+-  m_Layer: 0
+-  m_Name: Manager
+-  m_TagString: Untagged
+-  m_Icon: {fileID: 0}
+-  m_NavMeshLayer: 0
+-  m_StaticEditorFlags: 0
+-  m_IsActive: 1
+---- !u!114 &338154426
+-MonoBehaviour:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 338154425}
+-  m_Enabled: 1
+-  m_EditorHideFlags: 0
+-  m_Script: {fileID: 11500000, guid: 7f2ee3cb487163d4f8b1f5259a680669, type: 3}
+-  m_Name: 
+-  m_EditorClassIdentifier: 
+-  MySoundManager: {fileID: 978758691}
+---- !u!4 &338154427
+-Transform:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 338154425}
+-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: 0, y: 0, z: 0}
+-  m_LocalScale: {x: 1, y: 1, z: 1}
+-  m_Children:
+-  - {fileID: 978758692}
+-  m_Father: {fileID: 0}
+-  m_RootOrder: 13
+-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!1 &381834999
+ GameObject:
+   m_ObjectHideFlags: 0
+@@ -1846,7 +1801,7 @@ PrefabInstance:
+     - target: {fileID: -8679921383154817045, guid: 789cc65897257d34b9cf360a7b7889b1,
+         type: 3}
+       propertyPath: m_RootOrder
+-      value: 2
++      value: 6
+       objectReference: {fileID: 0}
+     - target: {fileID: -8679921383154817045, guid: 789cc65897257d34b9cf360a7b7889b1,
+         type: 3}
+@@ -2533,58 +2488,6 @@ Transform:
+   m_Father: {fileID: 0}
+   m_RootOrder: 2
+   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+---- !u!1 &978758690
+-GameObject:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  serializedVersion: 6
+-  m_Component:
+-  - component: {fileID: 978758692}
+-  - component: {fileID: 978758691}
+-  m_Layer: 0
+-  m_Name: MySoundManager
+-  m_TagString: Untagged
+-  m_Icon: {fileID: 0}
+-  m_NavMeshLayer: 0
+-  m_StaticEditorFlags: 0
+-  m_IsActive: 1
+---- !u!114 &978758691
+-MonoBehaviour:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 978758690}
+-  m_Enabled: 1
+-  m_EditorHideFlags: 0
+-  m_Script: {fileID: 11500000, guid: 87e558af6ed2fc44f8ba1c41a719f4f3, type: 3}
+-  m_Name: 
+-  m_EditorClassIdentifier: 
+-  MySounds:
+-  - clip: {fileID: 8300000, guid: dc3768f8ccad62a48ba86bdf277f2ec6, type: 3}
+-    name: 
+-    volume: 0.316
+-    pitch: 1.6
+-    loop: 1
+-    audioSource: {fileID: 0}
+-    gameObject: {fileID: 0}
+-  MainCharacter: {fileID: 2040717204}
+---- !u!4 &978758692
+-Transform:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 978758690}
+-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+-  m_LocalPosition: {x: 0, y: 0, z: 0}
+-  m_LocalScale: {x: 1, y: 1, z: 1}
+-  m_Children: []
+-  m_Father: {fileID: 338154427}
+-  m_RootOrder: 0
+-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+ --- !u!114 &1014535642 stripped
+ MonoBehaviour:
+   m_CorrespondingSourceObject: {fileID: 2976154511468883630, guid: e454968dcc901fb408ae5d3150cc2660,
+@@ -4114,7 +4017,7 @@ MonoBehaviour:
+   speed: 100
+   nextWaypointDistance: 0.25
+   playerController: {fileID: 2040717202}
+-  minDistanceToTarget: 0
++  minDistanceToTarget: 1.5
+   orientatingToTargetInPlace: 0
+ --- !u!95 &2040717201
+ Animator:
+@@ -4147,10 +4050,8 @@ MonoBehaviour:
+   m_Script: {fileID: 11500000, guid: 7d92f1bee605ba447a71a353c66288f1, type: 3}
+   m_Name: 
+   m_EditorClassIdentifier: 
+-  _camera: {fileID: 0}
+-  _characterSoundPlayer: {fileID: 2040717204}
++  _camera: {fileID: 963194225}
+   moveDir: {x: 0, y: 0, z: 0}
+-  prevMoveDir: {x: 0, y: 0, z: 0}
+   animator: {fileID: 2040717201}
+   groundCheck: 0.2
+   jumpPower: 5
+@@ -4170,18 +4071,6 @@ MonoBehaviour:
+   objectToGrab: {fileID: 1934473607}
+   LH_bone: {fileID: 1352227945}
+   RH_bone: {fileID: 832075899}
+---- !u!114 &2040717204
+-MonoBehaviour:
+-  m_ObjectHideFlags: 0
+-  m_CorrespondingSourceObject: {fileID: 0}
+-  m_PrefabInstance: {fileID: 0}
+-  m_PrefabAsset: {fileID: 0}
+-  m_GameObject: {fileID: 2040717196}
+-  m_Enabled: 1
+-  m_EditorHideFlags: 0
+-  m_Script: {fileID: 11500000, guid: 7de850936ec3ec7428074f8a41cdceb1, type: 3}
+-  m_Name: 
+-  m_EditorClassIdentifier: 
+ --- !u!1 &2069332572
+ GameObject:
+   m_ObjectHideFlags: 0
+diff --git a/Assets/Scripts/CharController.cs b/Assets/Scripts/CharController.cs
+index d56f891..d2747b8 100644
+--- a/Assets/Scripts/CharController.cs
++++ b/Assets/Scripts/CharController.cs
+@@ -6,10 +6,7 @@ public class CharController : MonoBehaviour
+ {
+     Camera cam;
+     [SerializeField] GameObject _camera;
+-    [SerializeField] CharacterSoundPlayer _characterSoundPlayer;
+-
+-
+-    public Vector3 moveDir, prevMoveDir;
++    public Vector3 moveDir;
+     float rotSpeed = 270.0f;
+     public Animator animator;
+     Rigidbody rb;
+@@ -30,14 +27,11 @@ public class CharController : MonoBehaviour
+     }
+ 
+     void Start() {
+-        moveDir = prevMoveDir = Vector3.zero;
++        moveDir = Vector3.zero;
+     }
+ 
+     void LateUpdate()
+     {
+-        if (moveDir == Vector3.zero && prevMoveDir != Vector3.zero)
+-            _characterSoundPlayer.StopPlayingWalkingSound();
+-
+         if (!animator.GetBool("GrabCanceled"))
+             return;
+ 
+@@ -83,13 +77,6 @@ public class CharController : MonoBehaviour
+                 moveDir = Vector3.zero;
+             }
+         }
+-
+-        if (moveDir != Vector3.zero && prevMoveDir == Vector3.zero)
+-            _characterSoundPlayer.PlayWalkingSound();
+-
+-        Debug.Log("moveDir = " + moveDir + " and prev = " + prevMoveDir);
+-
+-        prevMoveDir = moveDir;
+     }
+ 
+     void ComputeAnimatorParams(Vector3 dir)
+diff --git a/Assets/Scripts/Manager.cs b/Assets/Scripts/Manager.cs
+deleted file mode 100644
+index d699531..0000000
+--- a/Assets/Scripts/Manager.cs
++++ /dev/null
+@@ -1,17 +0,0 @@
+-using System.Collections;
+-using System.Collections.Generic;
+-using UnityEngine;
+-
+-public class Manager : MonoBehaviour
+-{
+-    public static Manager Instance;
+-
+-    // Sub-managers:
+-    [SerializeField] public MySoundManager MySoundManager;
+-
+-    void Awake()
+-    {
+-        Instance = this;
+-        MySoundManager.Initialize();
+-    }
+-}
+diff --git a/Assets/Scripts/Manager.cs.meta b/Assets/Scripts/Manager.cs.meta
+deleted file mode 100644
+index 57f1ea5..0000000
+--- a/Assets/Scripts/Manager.cs.meta
++++ /dev/null
+@@ -1,11 +0,0 @@
+-fileFormatVersion: 2
+-guid: 7f2ee3cb487163d4f8b1f5259a680669
+-MonoImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  defaultReferences: []
+-  executionOrder: 0
+-  icon: {instanceID: 0}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Scripts/Sounds.meta b/Assets/Scripts/Sounds.meta
+deleted file mode 100644
+index 62a0726..0000000
+--- a/Assets/Scripts/Sounds.meta
++++ /dev/null
+@@ -1,8 +0,0 @@
+-fileFormatVersion: 2
+-guid: 2278bed35266178428059b0e760c6a18
+-folderAsset: yes
+-DefaultImporter:
+-  externalObjects: {}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Scripts/Sounds/CharacterSoundPlayer.cs b/Assets/Scripts/Sounds/CharacterSoundPlayer.cs
+deleted file mode 100644
+index 5b56f42..0000000
+--- a/Assets/Scripts/Sounds/CharacterSoundPlayer.cs
++++ /dev/null
+@@ -1,24 +0,0 @@
+-using System.Collections;
+-using System.Collections.Generic;
+-using UnityEngine;
+-
+-public class CharacterSoundPlayer : MonoBehaviour
+-{
+-    private Sound _walkingSound;
+-    public Sound WalkingSound => _walkingSound;
+-
+-    public void Initialize(Sound walkingSound)
+-    {
+-        _walkingSound = walkingSound;
+-    }
+-
+-    public void PlayWalkingSound()
+-    {
+-        Manager.Instance.MySoundManager.PlaySound(_walkingSound, true, Vector3.zero);
+-    }
+-
+-    public void StopPlayingWalkingSound()
+-    {
+-        Manager.Instance.MySoundManager.StopSound(_walkingSound, false);
+-    }
+-}
+diff --git a/Assets/Scripts/Sounds/CharacterSoundPlayer.cs.meta b/Assets/Scripts/Sounds/CharacterSoundPlayer.cs.meta
+deleted file mode 100644
+index 25c817e..0000000
+--- a/Assets/Scripts/Sounds/CharacterSoundPlayer.cs.meta
++++ /dev/null
+@@ -1,11 +0,0 @@
+-fileFormatVersion: 2
+-guid: 7de850936ec3ec7428074f8a41cdceb1
+-MonoImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  defaultReferences: []
+-  executionOrder: 0
+-  icon: {instanceID: 0}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Scripts/Sounds/MySoundManager.cs b/Assets/Scripts/Sounds/MySoundManager.cs
+deleted file mode 100644
+index b259850..0000000
+--- a/Assets/Scripts/Sounds/MySoundManager.cs
++++ /dev/null
+@@ -1,63 +0,0 @@
+-using System.Collections;
+-using System.Collections.Generic;
+-using UnityEngine;
+-
+-public class MySoundManager : MonoBehaviour
+-{
+-    [SerializeField] List<Sound> MySounds;
+-    [SerializeField] CharacterSoundPlayer MainCharacter;
+-
+-    public void Initialize()
+-    {
+-        foreach (Sound s in MySounds)
+-        {
+-            s.audioSource = gameObject.AddComponent<AudioSource>();
+-            s.audioSource.clip = s.clip;
+-            s.name = s.clip.name;
+-            s.audioSource.volume = s.volume;
+-            s.audioSource.pitch = s.pitch;
+-            s.audioSource.loop = s.loop;
+-        }
+-
+-        MainCharacter.Initialize(FindSound("Walking").Clone(MainCharacter.gameObject));
+-    }
+-
+-    Sound FindSound(string name)
+-    {
+-        return MySounds.Find(s => s.name == name);
+-    }
+-
+-    public void PlaySound(string soundName, bool loop, Vector3 position)
+-    {
+-        Sound s = FindSound(soundName);
+-        if (s == null)
+-            return;
+-        PlaySound(s, loop, position);
+-    }
+-
+-    public void PlaySound(Sound sound, bool loop, Vector3 position)
+-    {
+-        if (sound == null) return;
+-        sound.audioSource.loop = loop;
+-        sound.audioSource.Play();
+-    }
+-
+-    public void StopSound(string soundName, bool finishLoop)
+-    {
+-        Sound s = FindSound(soundName);
+-        if (s == null)
+-            return;
+-        StopSound(s, finishLoop);
+-    }
+-
+-    public void StopSound(Sound sound, bool finishLoop)
+-    {
+-        if (sound == null)
+-            return;
+-
+-        if (finishLoop)
+-            sound.audioSource.loop = false;
+-        else
+-            sound.audioSource.Stop();
+-    }
+-}
+diff --git a/Assets/Scripts/Sounds/MySoundManager.cs.meta b/Assets/Scripts/Sounds/MySoundManager.cs.meta
+deleted file mode 100644
+index 387f3ec..0000000
+--- a/Assets/Scripts/Sounds/MySoundManager.cs.meta
++++ /dev/null
+@@ -1,11 +0,0 @@
+-fileFormatVersion: 2
+-guid: 87e558af6ed2fc44f8ba1c41a719f4f3
+-MonoImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  defaultReferences: []
+-  executionOrder: 0
+-  icon: {instanceID: 0}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Scripts/Sounds/Sound.cs b/Assets/Scripts/Sounds/Sound.cs
+deleted file mode 100644
+index 503b62e..0000000
+--- a/Assets/Scripts/Sounds/Sound.cs
++++ /dev/null
+@@ -1,50 +0,0 @@
+-using System.Collections;
+-using System.Collections.Generic;
+-using UnityEngine;
+-
+-[System.Serializable]
+-public class Sound : System.ICloneable
+-{
+-    public AudioClip clip;
+-
+-    [HideInInspector]
+-    public string name;
+-
+-    [Range(0f, 1f)]
+-    public float volume;
+-
+-    [Range(.1f, 100f)]
+-    public float pitch;
+-
+-    public bool loop;
+-
+-    [HideInInspector]
+-    public AudioSource audioSource;
+-
+-    [HideInInspector]
+-    public GameObject gameObject;
+-
+-    public object Clone()
+-    {
+-        var sound = (Sound)MemberwiseClone();
+-        sound.clip = clip;
+-        sound.name = name;
+-        sound.volume = volume;
+-        sound.pitch = pitch;
+-        sound.loop = loop;
+-        return sound;
+-    }
+-
+-    public Sound Clone(GameObject gameObject)
+-    {
+-        Sound clonedSound = (Sound)Clone();
+-        clonedSound.gameObject = gameObject;
+-        clonedSound.audioSource = gameObject.AddComponent<AudioSource>();
+-        clonedSound.audioSource.clip = clonedSound.clip;
+-        clonedSound.name = clonedSound.clip.name;
+-        clonedSound.audioSource.volume = clonedSound.volume;
+-        clonedSound.audioSource.pitch = clonedSound.pitch;
+-        clonedSound.audioSource.loop = clonedSound.loop;
+-        return clonedSound;
+-    }
+-}
+diff --git a/Assets/Scripts/Sounds/Sound.cs.meta b/Assets/Scripts/Sounds/Sound.cs.meta
+deleted file mode 100644
+index 7de9549..0000000
+--- a/Assets/Scripts/Sounds/Sound.cs.meta
++++ /dev/null
+@@ -1,11 +0,0 @@
+-fileFormatVersion: 2
+-guid: a50a69297bf77dd42a2744e5913497db
+-MonoImporter:
+-  externalObjects: {}
+-  serializedVersion: 2
+-  defaultReferences: []
+-  executionOrder: 0
+-  icon: {instanceID: 0}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Sounds.meta b/Assets/Sounds.meta
+deleted file mode 100644
+index f3b2d3f..0000000
+--- a/Assets/Sounds.meta
++++ /dev/null
+@@ -1,8 +0,0 @@
+-fileFormatVersion: 2
+-guid: 99d565f2351599443914111cc27dd62c
+-folderAsset: yes
+-DefaultImporter:
+-  externalObjects: {}
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Assets/Sounds/Walking.mp3 b/Assets/Sounds/Walking.mp3
+deleted file mode 100644
+index 0e88e44..0000000
+Binary files a/Assets/Sounds/Walking.mp3 and /dev/null differ
+diff --git a/Assets/Sounds/Walking.mp3.meta b/Assets/Sounds/Walking.mp3.meta
+deleted file mode 100644
+index 876391e..0000000
+--- a/Assets/Sounds/Walking.mp3.meta
++++ /dev/null
+@@ -1,22 +0,0 @@
+-fileFormatVersion: 2
+-guid: dc3768f8ccad62a48ba86bdf277f2ec6
+-AudioImporter:
+-  externalObjects: {}
+-  serializedVersion: 6
+-  defaultSettings:
+-    loadType: 0
+-    sampleRateSetting: 0
+-    sampleRateOverride: 44100
+-    compressionFormat: 1
+-    quality: 1
+-    conversionMode: 0
+-  platformSettingOverrides: {}
+-  forceToMono: 0
+-  normalize: 1
+-  preloadAudioData: 1
+-  loadInBackground: 0
+-  ambisonic: 0
+-  3D: 1
+-  userData: 
+-  assetBundleName: 
+-  assetBundleVariant: 
+diff --git a/Packages/packages-lock.json b/Packages/packages-lock.json
+index 0671c4d..d0a1515 100644
+--- a/Packages/packages-lock.json
++++ b/Packages/packages-lock.json
+@@ -56,13 +56,11 @@
+       "url": "https://packages.unity.com"
+     },
+     "com.unity.render-pipelines.core": {
+-      "version": "10.8.1",
++      "version": "10.6.0",
+       "depth": 1,
+       "source": "registry",
+       "dependencies": {
+-        "com.unity.ugui": "1.0.0",
+-        "com.unity.modules.physics": "1.0.0",
+-        "com.unity.modules.jsonserialize": "1.0.0"
++        "com.unity.ugui": "1.0.0"
+       },
+       "url": "https://packages.unity.com"
+     },
+@@ -85,11 +83,11 @@
+       "url": "https://packages.unity.com"
+     },
+     "com.unity.shadergraph": {
+-      "version": "10.8.1",
++      "version": "10.6.0",
+       "depth": 1,
+       "source": "registry",
+       "dependencies": {
+-        "com.unity.render-pipelines.core": "10.8.1",
++        "com.unity.render-pipelines.core": "10.6.0",
+         "com.unity.searcher": "4.3.2"
+       },
+       "url": "https://packages.unity.com"

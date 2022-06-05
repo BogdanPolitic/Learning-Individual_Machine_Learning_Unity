@@ -15,6 +15,7 @@ public class DoorOpening : MonoBehaviour
 
     [SerializeField] DoorOpeningCollisionChecker doorCheckerPozitive;
     [SerializeField] DoorOpeningCollisionChecker doorCheckerNegative;
+    [SerializeField] public DoorSoundPlayer DoorSoundPlayer;
 
     // The canonical interval is [0 ... 360)
     float ToCanonicalInterval(float euler)

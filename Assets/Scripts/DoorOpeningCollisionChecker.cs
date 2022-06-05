@@ -46,6 +46,8 @@ public class DoorOpeningCollisionChecker : MonoBehaviour
                 characterAnimator.SetBool("PushingWithRightHand", true);
             else
                 characterAnimator.SetBool("PushingWithLeftHand", true);
+
+            doorParameters.DoorSoundPlayer.PlayCreakingSound();
         }
     }
 

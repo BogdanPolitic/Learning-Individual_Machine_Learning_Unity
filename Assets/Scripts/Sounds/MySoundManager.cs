@@ -6,6 +6,7 @@ public class MySoundManager : MonoBehaviour
 {
     [SerializeField] List<Sound> MySounds;
     [SerializeField] CharacterSoundPlayer MainCharacter;
+    [SerializeField] Transform Doors;
 
     public void Initialize()
     {
@@ -20,6 +21,11 @@ public class MySoundManager : MonoBehaviour
         }
 
         MainCharacter.Initialize(FindSound("Walking").Clone(MainCharacter.gameObject));
+
+        foreach (Transform door in Doors)
+        {
+            door.gameObject.GetComponent<DoorSoundPlayer>().Initialize(FindSound("DoorCreaking").Clone(door.gameObject));
+        }
     }
 
     Sound FindSound(string name)

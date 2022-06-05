@@ -35,11 +35,11 @@ public class CharController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (moveDir == Vector3.zero && prevMoveDir != Vector3.zero)
-            _characterSoundPlayer.StopPlayingWalkingSound();
-
         if (!animator.GetBool("GrabCanceled"))
+        {
+            EndFrameActions();
             return;
+        }
 
         moveFwd = Input.GetAxis("Vertical");
         moveSide = Input.GetAxis("Horizontal");
@@ -54,7 +54,13 @@ public class CharController : MonoBehaviour
         ComputeAnimatorParams(moveDir);
 
         if (_UIScript.currentMode != GameModes.Modes.Pathfinding && (moveFwd == 0.0f && moveSide == 0.0f))
+        {
+            if (moveDir == Vector3.zero && prevMoveDir != Vector3.zero)
+                _characterSoundPlayer.StopPlayingWalkingSound();
+
+            EndFrameActions();
             return;
+        }
 
         if (_UIScript.currentMode == GameModes.Modes.Pathfinding	// la pathfinding nu trebuie sa apesi pe niciun arrow (nu neaparat), ci personajul trebuie sa se miste (sa capete velocity) singur
             || !CustomPathfinding.instance.orientatingToTargetInPlace)
@@ -89,6 +95,11 @@ public class CharController : MonoBehaviour
 
         Debug.Log("moveDir = " + moveDir + " and prev = " + prevMoveDir);
 
+        EndFrameActions();
+    }
+
+    void EndFrameActions()
+    {
         prevMoveDir = moveDir;
     }
 

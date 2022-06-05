@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkerType: 1
+  heldByCharacter: 0
 --- !u!1 &2976154511647327612
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkerType: 0
+  heldByCharacter: 0
 --- !u!1 &3465080676965009299
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +229,7 @@ GameObject:
   - component: {fileID: 5947412640923658873}
   - component: {fileID: 3221156543536965171}
   - component: {fileID: 6110044236167284035}
+  - component: {fileID: -5522031661300948857}
   m_Layer: 0
   m_Name: MovableDoor
   m_TagString: Untagged
@@ -328,3 +331,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotSpeed: 50
   closedAngleDegrees: 270
+  doorCheckerPozitive: {fileID: 0}
+  doorCheckerNegative: {fileID: 0}
+  DoorSoundPlayer: {fileID: -5522031661300948857}
+--- !u!114 &-5522031661300948857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126736645980387912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1612816b1e445f243a4905fad0672f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
