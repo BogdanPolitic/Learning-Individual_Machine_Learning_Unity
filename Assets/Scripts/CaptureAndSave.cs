@@ -8,6 +8,8 @@ using System.Drawing;
 
 public class CaptureAndSave : MonoBehaviour
 {
+    [SerializeField] private CharacterSoundPlayer _characterSoundPlayer;
+
     // Grab the camera's view when this variable is true.
     bool captureAllowed;
 
@@ -134,6 +136,9 @@ public class CaptureAndSave : MonoBehaviour
             	Debug.Log("There's no object category called " + _UIScript.objName);
             	return;
             }
+
+            if (!AutomaticCapture())
+                _characterSoundPlayer.PlayPhotoShootingSound();
 
             captureAllowed = true;
             foreach (GameObject o in allGOs)

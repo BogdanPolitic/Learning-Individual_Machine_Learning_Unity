@@ -2251,6 +2251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593571ec31e921d408dfb6315edbd42f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _characterSoundPlayer: {fileID: 2040717204}
   captureTarget: {fileID: 0}
   currentMode: 0
 --- !u!114 &963194231
@@ -2395,6 +2396,13 @@ MonoBehaviour:
     name: 
     volume: 0.316
     pitch: 1.6
+    loop: 1
+    audioSource: {fileID: 0}
+    gameObject: {fileID: 0}
+  - clip: {fileID: 8300000, guid: ad3c9174b8389ea42bd208a4238fcf6f, type: 3}
+    name: 
+    volume: 0.5
+    pitch: 0.8
     loop: 1
     audioSource: {fileID: 0}
     gameObject: {fileID: 0}

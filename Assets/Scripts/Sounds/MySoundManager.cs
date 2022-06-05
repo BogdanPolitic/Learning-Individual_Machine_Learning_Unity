@@ -20,7 +20,9 @@ public class MySoundManager : MonoBehaviour
             s.audioSource.loop = s.loop;
         }
 
-        MainCharacter.Initialize(FindSound("Walking").Clone(MainCharacter.gameObject));
+        MainCharacter.Initialize(
+            FindSound("Walking").Clone(MainCharacter.gameObject),
+            FindSound("PhotoShooting").Clone(MainCharacter.gameObject));
 
         foreach (Transform door in Doors)
         {
